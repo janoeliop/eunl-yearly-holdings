@@ -28,9 +28,12 @@ jobs:
       # 🔧 WICHTIGER FIX: altes lxml==4.5.1 auf eine Py3.11-kompatible Version setzen
       - name: Patch vendor requirements (lxml pin)
         run: |
+          # lxml war bereits problematisch -> moderneres Wheel
           sed -i 's/^lxml==4\.5\.1$/lxml==4.9.4/' vendor/ishares/requirements.txt
-          echo "Patched requirements.txt:"
-          grep -n 'lxml' vendor/ishares/requirements.txt || true
+          # NEU: numpy ist für Py3.11 zu alt -> hebe auf 1.26.4 an
+          sed -i 's/^numpy==1\.18\.4$/numpy==1.26.4/' vendor/ishares/requirements.txt
+          echo "Current pins:"
+          grep -nE '^(lxml|numpy)=' vendor/ishares/requirements.txt || true
 
       - name: Install dependencies (incl. vendor requirements)
         run: |
