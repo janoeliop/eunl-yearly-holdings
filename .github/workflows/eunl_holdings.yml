@@ -25,6 +25,13 @@ jobs:
           git clone --depth 1 https://github.com/talsan/ishares.git vendor/ishares
           ls -la vendor/ishares
 
+      # 🔧 WICHTIGER FIX: altes lxml==4.5.1 auf eine Py3.11-kompatible Version setzen
+      - name: Patch vendor requirements (lxml pin)
+        run: |
+          sed -i 's/^lxml==4\.5\.1$/lxml==4.9.4/' vendor/ishares/requirements.txt
+          echo "Patched requirements.txt:"
+          grep -n 'lxml' vendor/ishares/requirements.txt || true
+
       - name: Install dependencies (incl. vendor requirements)
         run: |
           python -m pip install --upgrade pip
