@@ -1,0 +1,9 @@
+# Data caches
+vendor/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local data
+data/
